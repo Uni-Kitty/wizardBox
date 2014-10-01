@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html ng-app="login">
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="app.css">
+        <script type="text/javascript" src="jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+        <script type="text/javascript" src="app.js"></script>
+    </head>
+
+    <body ng-controller="MainController" ng-keydown="keyDown($event)" tabindex="0">
+        <div id="arena">
+            <img class="wizard" id="myWizard" src="wizard.png" ng-show="joined" >
+        </div>
+        <div id="controls">
+            <button ng-click="joinGame()">Join</button>
+        </div>
+    </body>
+</html>

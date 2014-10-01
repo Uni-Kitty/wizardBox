@@ -1,0 +1,28 @@
+body {
+    text-align:center;
+    font-family: monospace;
+}
+
+h1 {
+    font-size: 28pt;
+}
+
+h2 {
+    font-size: 20pt;
+}
+
+#arena {
+    margin: auto;
+    margin-top: 10px;
+    border: red solid 4px;
+}
+
+#controls {
+    margin-top: 5px;
+}
+
+.wizard {
+    float:left;
+    margin-top: 380px;
+    margin-left: 380px;
+}
