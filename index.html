@@ -10,12 +10,12 @@
         <script type="text/javascript" src="app.js"></script>
     </head>
 
-    <body ng-controller="MainController" ng-keydown="keyDown($event)" tabindex="0">
+    <body ng-controller="MainController" ng-keypress="keyPress($event)" ng-keyup="keyUp($event)" ng-keydown="keyDown($event)" tabindex="0">
         <h1>Wizard Box</h1>
         
         <h2>It's a wizard in a box</h2>
     
-        <div id="arena">
+        <div id="arena" ng-click="clickOnArena($event)" >
             <img class="wizard" id="myWizard" src="wizard.png" ng-show="joined" >
         </div>
         <div id="controls">
