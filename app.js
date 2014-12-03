@@ -3,7 +3,7 @@ var myApp = angular.module('login',[]);
 myApp.controller('MainController', ['$scope', '$http', '$interval', function($scope, $http, $interval) {
 
     var MAX_SPEED = 6000;
-    var FRICTION = 0.95;
+    var FRICTION = 0.97;
     var arenaWidth = 800;
     var arenaHeight = 800;
     var upArrow = 38;
@@ -25,8 +25,8 @@ myApp.controller('MainController', ['$scope', '$http', '$interval', function($sc
     wizard.health = 100;
 
     $scope.doFrame = function() {
-        wizard.x += wizard.vx / 500;
-        wizard.y += wizard.vy / 500;
+        wizard.x += wizard.vx / 1000;
+        wizard.y += wizard.vy / 1000;
         wizard.vx *= FRICTION;
         wizard.vy *= FRICTION;
     }
@@ -52,20 +52,24 @@ myApp.controller('MainController', ['$scope', '$http', '$interval', function($sc
 
     $scope.keyDown = function($event) {
         keys[$event.which] = true;
+        var x = 0;
+        var y = 0;
+        console.log(keys);
         for (var key in keys) {
             if (key == upArrow || key == upKey) {
-                $scope.accelerate(0, -1000);
+                y += -6000;
             }
             if (key == downArrow || key == downKey) {
-                $scope.accelerate(0, 1000);
+                y += 6000;
             }
             if (key == leftArrow || key == leftKey) {
-                $scope.accelerate(-1000, 0);
+                x += -6000;
             }
             if (key == rightArrow || key == rightKey) {
-                $scope.accelerate(1000, 0);
+                x += 6000;
             }
         }
+        $scope.accelerate(x, y);
     };
 
     $scope.keyUp = function($event) {
@@ -95,6 +99,6 @@ myApp.controller('MainController', ['$scope', '$http', '$interval', function($sc
 
     $interval(function() {
         $scope.drawArena();
-    }, 33);
+    }, 20);
 
 }]);
