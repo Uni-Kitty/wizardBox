@@ -1,89 +1,100 @@
 var myApp = angular.module('login',[]);
-  
+
 myApp.controller('MainController', ['$scope', '$http', '$interval', function($scope, $http, $interval) {
 
-    var wizardWidth = 30; // image wizard
-    var wizardHeight = 40; // image height
+    var MAX_SPEED = 6000;
+    var FRICTION = 0.95;
     var arenaWidth = 800;
     var arenaHeight = 800;
     var upArrow = 38;
     var downArrow = 40;
     var rightArrow = 39;
     var leftArrow = 37;
-    
+    var upKey = 87;
+    var downKey = 83;
+    var rightKey = 68;
+    var leftKey = 65;
+
+    var wizard = {};
+    wizard.x = 1000;
+    wizard.y = 600;
+    wizard.vx = 0;
+    wizard.vy = 0;
+    wizard.width = 30;
+    wizard.height = 40;
+    wizard.health = 100;
+
+    $scope.doFrame = function() {
+        wizard.x += wizard.vx / 500;
+        wizard.y += wizard.vy / 500;
+        wizard.vx *= FRICTION;
+        wizard.vy *= FRICTION;
+    }
+
+    $scope.accelerate = function(x, y) {
+        wizard.vx = Math.max(Math.min(MAX_SPEED, wizard.vx + x), -MAX_SPEED);
+        wizard.vy = Math.max(Math.min(MAX_SPEED, wizard.vy + y), -MAX_SPEED);
+    }
+
     // this array stores the model view of each object in the arena
     var objects = [];
-    
+
     var arena = $("#arena");
-    
-    var myWizard = {};
-    myWizard.hp = 100;
-    myWizard.xPos = 380;
-    myWizard.yPos = 380;
-    myWizard.xVelocity = 0;
-    myWizard.yVelocity = 0;
-    
+    var myWizard = $("#myWizard");
+
     arena.css("width", arenaWidth);
     arena.css("height", arenaHeight);
-    
-    var joined = false;
-    
-    $scope.keyDown = function($event) {
-        console.log("key down");
-        console.log($event);
-        /*if (!$scope.joined)
-            return;
+    myWizard.css("width", wizard.width);
+    myWizard.css("height", wizard.height);
 
-        //console.log($event.keyCode);
-        switch($event.keyCode) {
-            case (upArrow):
-                changeVerticalPos($scope.myWizard, 0 - moveDelta);
-                break;
-            case (downArrow):
-                changeVerticalPos($scope.myWizard, moveDelta);
-                break;
-            case (leftArrow):
-                changeHorizontalPos($scope.myWizard, 0 - moveDelta);
-                break;
-            case (rightArrow):
-                changeHorizontalPos($scope.myWizard, moveDelta);
-                break;
-        } */
+    var joined = false;
+    var keys = {};
+
+    $scope.keyDown = function($event) {
+        keys[$event.which] = true;
+        for (var key in keys) {
+            if (key == upArrow || key == upKey) {
+                $scope.accelerate(0, -1000);
+            }
+            if (key == downArrow || key == downKey) {
+                $scope.accelerate(0, 1000);
+            }
+            if (key == leftArrow || key == leftKey) {
+                $scope.accelerate(-1000, 0);
+            }
+            if (key == rightArrow || key == rightKey) {
+                $scope.accelerate(1000, 0);
+            }
+        }
     };
-    
+
+    $scope.keyUp = function($event) {
+        delete keys[$event.which];
+    };
+
     $scope.clickOnArena = function($event) {
         console.log("offsetX: " + $event.offsetX);
         console.log("offsetY: " + $event.offsetY);
     };
-    
-    $scope.keyPress = function($event) {
-        console.log("key press");
-        console.log($event);
-    };
-    
-    $scope.keyUp = function($event) {
-        console.log("key up");
-        console.log($event);
-    };
-    
+
     function drawModels(model) {
-        
+
     };
-    
+
     $scope.drawArena = function() {
-        
+        if (!$scope.joined)
+            return;
+        $scope.doFrame()
+        myWizard.css("top", wizard.y);
+        myWizard.css("left", wizard.x);
     };
 
     $scope.joinGame = function() {
         $scope.joined = true;
     };
-    
+
     $interval(function() {
-        drawArena();
-    }, 100);
-    
+        $scope.drawArena();
+    }, 33);
+
 }]);
-
-
-
-

@@ -21,8 +21,6 @@ h2 {
     margin-top: 5px;
 }
 
-.wizard {
-    float:left;
-    margin-top: 380px;
-    margin-left: 380px;
+#myWizard {
+    position: fixed;
 }
